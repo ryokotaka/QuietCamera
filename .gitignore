@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+._*
+__MACOSX/
+
+# Xcode user-specific state and build products
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+DerivedData/
+build/
+.build/
+*.xcarchive
+*.app
+*.ipa
+*.dSYM/
+*.dSYM.zip
+*.xcresult
+
+# Signing credentials and local configuration
+*.mobileprovision
+*.provisionprofile
+*.p12
+*.pfx
+*.cer
+*.pem
+*.key
+*.keychain
+*.keychain-db
+ExportOptions.plist
+*.local.xcconfig
+.env
+.env.*
+
+# Local reports and logs may contain device or account identifiers
+*.log
+logs/
