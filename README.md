@@ -16,11 +16,11 @@
   <strong>English</strong> · <a href="README.ja.md">日本語</a>
 </p>
 
-Quiet Camera is an experimental iPhone camera app for places where a shutter sound would disturb people, such as a classroom. On every shot it tries to suppress the shutter sound, and it asks the camera for full-size photos, which it saves to the Photos app. It's shared as source code, so you build it in Xcode and install it on your own iPhone.
+Quiet Camera is an iPhone camera app for places where a shutter sound would disturb people, such as a classroom. On every shot it tries to suppress the shutter sound, and it asks the camera for full-size photos, which it saves to the Photos app. It's shared as source code, so you build it in Xcode and install it on your own iPhone.
 
 ## Why I made it
 
-In one of my classes, the professor asked the whole class to turn off their shutter sounds. On an iPhone that isn't as simple as it sounds. On some iPhones used in Japan, even Silent mode won't mute the shutter. I tried silent camera apps, but I wasn't happy with the image quality, so I made my own.
+In one of my classes, the professor asked the students to turn off their shutter sounds. On some iPhones used in Japan, though, even Silent mode won't mute the shutter. The silent camera apps I tried didn't give me image quality I was happy with, so I made my own.
 
 Please use it only where photography is allowed, and with respect for the people around you.
 
@@ -32,15 +32,15 @@ Please use it only where photography is allowed, and with respect for the people
 - **No extras.** It uses the camera and add-only Photos access. The app has no networking of its own, no ads, and no analytics.
 
 > [!IMPORTANT]
-> This is an experimental personal project. It doesn't guarantee silence, full resolution, or the same image quality as Apple's Camera app. Results can vary with your iPhone model, iOS version, and region, and so far it has only been tested on one iPhone.
+> Silence, full resolution, and the same image quality as Apple's Camera app aren't guaranteed. Results can vary with your iPhone model, iOS version, and region, and so far the app has only been tested on one iPhone.
 
 ## Tested so far
 
-On an iPhone 15 with iOS 27.0.1, using the rear main camera at 1×, photos were taken with no shutter sound. Photos showed them at 8064 × 6048, about 48.8 MP. Apple's official API reported no support on that phone, so the experimental fallback was used. Other models and regions haven't been tested yet. The full log is under [Details](#details).
+On an iPhone 15 with iOS 27.0.1, using the rear main camera at 1×, photos were taken with no shutter sound, and the Photos app showed them at 8064 × 6048 (about 48.8 MP). Apple's official API reported no support on that phone, so the experimental fallback was used. Other models and regions haven't been tested yet. The full log is under [Details](#details).
 
 ## Try it on your iPhone
 
-There's no prebuilt app. You build it in Xcode and install it on your own iPhone. You'll need:
+To build and install it, you'll need:
 
 - an iPhone on iOS 18.0 or later
 - a Mac with Xcode that includes the iOS 18 SDK or later and supports your iPhone's iOS version
@@ -59,8 +59,6 @@ Then:
 With a free Personal Team, the provisioning profile expires 7 days after it's issued. When it does, rebuild and reinstall with the same Apple Account and Bundle Identifier ([Apple's explanation](https://developer.apple.com/help/account/basics/about-your-developer-account)).
 
 ## Details
-
-The sections below cover the technical background, limitations, and sources.
 
 <details>
 <summary><strong>The shutter sound: background and how it's handled</strong></summary>
@@ -158,4 +156,4 @@ These results come from one specific device. They aren't tests across multiple m
 
 ## License
 
-Released under the [MIT License](LICENSE). You can reuse, modify, and redistribute it, including commercially, as long as you keep the copyright notice and license text. It comes with no warranty, and it doesn't change the terms of Apple's SDKs or services. Public examples referenced during development are credited in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+[MIT License](LICENSE) · [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
