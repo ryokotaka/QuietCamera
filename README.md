@@ -1,149 +1,159 @@
 <p align="center">
-  <img src="QuietCamera/Assets.xcassets/AppIcon.appiconset/AppIcon.png" width="96" height="96" alt="Quiet Camera のアイコン">
+  <img src="QuietCamera/Assets.xcassets/AppIcon.appiconset/AppIcon.png" width="96" height="96" alt="Quiet Camera app icon">
 </p>
 
 <h1 align="center">Quiet Camera</h1>
 
 <p align="center">
-  iPhone向けの、撮影音と写真の解像度に着目した個人開発のカメラアプリです。<br>
-  大きなプレビューで画角を確認し、撮影した静止画を「写真」アプリへ保存します。
+  An iPhone camera app that tries to keep the shutter quiet<br>
+  while requesting the largest photo dimensions the camera offers.
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/iOS-18.0%2B-1d2b31?style=flat-square" alt="iOS 18.0+">
-  <img src="https://img.shields.io/badge/dependencies-none-1d2b31?style=flat-square" alt="外部ライブラリなし">
+  <img src="https://img.shields.io/badge/dependencies-none-1d2b31?style=flat-square" alt="No external dependencies">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-3f6f60?style=flat-square" alt="MIT License"></a>
 </p>
 
 <p align="center">
-  <a href="#作ったきっかけ">作ったきっかけ</a> ·
-  <a href="#主な特徴">主な特徴</a> ·
-  <a href="#確認できた範囲">確認できた範囲</a> ·
-  <a href="#注意点と制約">注意点と制約</a> ·
-  <a href="#自分のiphoneへインストールする">インストール</a> ·
-  <a href="#ライセンス">ライセンス</a>
+  <strong>English</strong> · <a href="README.ja.md">日本語</a>
 </p>
 
-## 作ったきっかけ
-
-授業中の撮影音について教授から「シャッター音を消してほしい」と言われたことがきっかけです。試した無音カメラアプリでは画質に満足できなかったため、撮影音を抑えつつ、できるだけ高い解像度で保存できるものを自分で作ってみました。
-
-これは個人の利用経験から始めたプロジェクトです。他のアプリとの画質比較試験は行っていません。
+Quiet Camera is a personal project that started in a classroom. It shows a large 4:3 preview, tries to suppress the shutter sound automatically on every shot, and requests the largest photo dimensions the selected camera offers before saving still photos to the Photos app. It's shared as source code. To use it, you build it in Xcode and install it on your own iPhone.
 
 > [!IMPORTANT]
-> **必ず無音になるアプリではありません。また、48MPで保存できても、純正カメラと同じ画質になるとは限りません。**
-> 利用前に[注意点と制約](#注意点と制約)を確認してください。
+> **Quiet Camera does not guarantee silence.** Saving at 48 MP also doesn't mean you get the same image quality as Apple's Camera app. So far it has only been checked on one specific device. Please read [How it works](#how-it-works) before relying on it.
 
-## 主な特徴
+## Why this app exists
 
-| 特徴 | 内容 |
-| --- | --- |
-| 大きなプレビュー | 4:3の大きなカメラプレビューで画角を確認できます。前後カメラを切り替えられます。 |
-| 解像度を重視した保存 | 選択中のカメラが提示する最大写真寸法を要求し、HEIC優先の静止画を写真ライブラリへ保存します。 |
-| 撮影ごとの自動消音処理 | スイッチ操作なしで、撮影のたびに消音処理を自動で行います。無音になるとは限りません（[詳細](#消音について)）。 |
-| デジタルズーム | 倍率ボタン、調整バー、ピンチで操作できます。 |
-| 保存状況の表示と再試行 | 保存状況を表示し、保存に失敗した場合は再試行できます。アプリを終了すると未保存データは失われます。 |
-| 限定的な権限 | 通常の撮影では、カメラと写真ライブラリへの追加のみの権限を使用します。アプリ独自のネットワーク通信、広告、分析・追跡機能はありません。 |
+### Silent mode doesn't always silence the camera
 
-## 確認できた範囲
+Apple's iPhone User Guide says you can mute the shutter by putting iPhone in Silent mode. The same page adds that in some countries and regions, the shutter sound can't be muted ([Apple Support](https://support.apple.com/guide/iphone/adjust-the-shutter-volume-iph6cfaf98b6/ios)). Japan is one place where people run into this. SoftBank's iPhone support FAQ lists the camera shutter sound among the sounds that silent mode (called *manner mode* in Japan) does not mute ([SoftBank FAQ](https://www.softbank.jp/support/faq/view/12722), in Japanese).
 
-| 日付 | 環境 | 確認内容 |
+How this works can vary by device and region. But on an iPhone where it applies, turning on Silent mode isn't enough to take a quiet photo.
+
+### What I wanted
+
+During a class, a professor asked me to do something about my shutter sound. I wasn't happy with the image quality of the silent camera apps I tried. So I built a camera that does both: it tries to keep the shutter quiet, and it aims to save high-resolution photos.
+
+That comparison came from my own use. I haven't run any formal image-quality tests against other apps.
+
+The goal is to avoid disturbing a quiet room. Please use Quiet Camera only where photography is allowed, and respect the privacy of the people around you and the rules of your class or venue.
+
+## Features
+
+- **Large preview.** A 4:3 camera preview for framing, with front/rear camera switching.
+- **Resolution first.** Requests the largest photo dimensions the selected camera offers. Captures HEIC (falling back to JPEG) and saves it to your photo library. The app itself doesn't downscale or re-compress photos before saving.
+- **Automatic shutter-sound suppression.** Runs on every shot, with no toggle to remember. It uses Apple's official API where the system supports it and an experimental fallback where it doesn't ([details](#shutter-sound)).
+- **Digital zoom.** Zoom buttons, a slider, and pinch.
+- **Save status and retry.** Shows whether each photo was saved and lets you retry a failed save. Unsaved photos are lost if you quit the app.
+- **Limited access.** Normal shooting uses the camera and add-only Photos access. There is no networking of its own, no ads, and no analytics.
+
+## Tested so far
+
+| Date | Setup | Result |
 | --- | --- | --- |
-| 2026年10月6日 | iPhone 15 / iOS 27.0.1<br>背面メインカメラ・1× | 利用者が撮影音なしでの撮影と、「写真」の情報画面で **8064 × 6048（約48.8MP、向きによって逆）** の保存を確認しました。この環境では公式の消音対応フラグは `false` で、実験的な処理を使いました。 |
-| 同年10月9日<br>（画面更新後） | 背面1× | 大きなプレビューと、スイッチ操作なしの消音・保存を利用者が確認しています。 |
+| Oct 6, 2026 | iPhone 15 / iOS 27.0.1<br>Rear main camera at 1× | Shots were taken without a shutter sound, confirmed in hands-on use. The photo's Info panel in Photos showed **8064 × 6048 (about 48.8 MP; reversed depending on orientation)**. On this device the official suppression flag was `false`, so the experimental fallback was used. |
+| Oct 9, 2026<br>(after a UI update) | Rear camera at 1× | Hands-on use confirmed the large preview, plus quiet shooting and saving with no switches to operate. |
 
-これは特定端末での確認結果です。複数機種・地域での検証や、純正カメラとの画質比較を行った結果ではありません。
+These results come from one specific device. They aren't tests across multiple models or regions, and they aren't a quality comparison with Apple's Camera app.
 
-## 注意点と制約
+## How it works
 
-消音・画質・権限について、実装の内容と制約をまとめています。
+### Shutter sound
 
-### 消音について
+Quiet Camera picks one of two paths on every shot. There's no on/off switch.
 
-撮影ごとに次のどちらかを自動で行います。消音の切り替えスイッチはありません。
-
-| 条件 | 処理 | 位置づけ |
+| When | What the app does | Type |
 | --- | --- | --- |
-| 公式APIの `isShutterSoundSuppressionSupported` が対応を示す場合 | `isShutterSoundSuppressionEnabled` を有効にする | Appleの公式API |
-| 非対応の場合 | 撮影前後の通知内で `AudioServicesDisposeSystemSoundID(1108)` を呼ぶ | 実験的な処理 |
+| `isShutterSoundSuppressionSupported` is true | Turns on `isShutterSoundSuppressionEnabled` | Apple's official API |
+| Otherwise | Calls `AudioServicesDisposeSystemSoundID(1108)` in the capture callbacks just before and after the shot | Experimental |
 
-`AudioServicesDisposeSystemSoundID` 自体は公開APIですが、**ID `1108` を使って撮影音を抑える方法は、Appleが文書化した消音仕様ではありません。** 実装は [ExperimentalShutterSilencer.swift](QuietCamera/ExperimentalShutterSilencer.swift) に分離しています。
+`AudioServicesDisposeSystemSoundID` itself is a public API. **But using it with ID `1108` to suppress the shutter sound is not something Apple documents as a way to silence the camera.** This fallback is kept separate in [ExperimentalShutterSilencer.swift](QuietCamera/ExperimentalShutterSilencer.swift).
 
-- 自動で処理することと、無音に成功することは別です。戻り値が `0` でも成功とは判断していません。
-- 端末、OS、地域、撮影条件によって音が鳴る可能性があり、OS更新で動作が変わる可能性もあります。
-- 前面カメラにも同じ処理を適用しますが、前面での消音効果は実機未確認です。
-- Appleによる本実装の承認、App Store審査への適合、Appleの契約・規約への適合を確認したものではありません。
+- Trying to suppress the sound isn't the same as succeeding. A return value of `0` isn't treated as proof that the shutter was silent.
+- The sound may still play depending on the device, iOS version, region, and shooting conditions. An iOS update could change this behavior.
+- The same process runs for the front camera, but whether it works there hasn't been confirmed on a real device.
+- There is no confirmation that Apple approves of this implementation. Nor has it been confirmed to meet App Store Review requirements or Apple's agreements and terms.
 
-撮影が許可されている場所で、被写体のプライバシーや授業・施設のルールを尊重して使用してください。
+Reference: [Apple's shutter sound suppression API](https://developer.apple.com/documentation/avfoundation/avcapturephotooutput/isshuttersoundsuppressionsupported)
 
-参考: [Appleの撮影音抑制API](https://developer.apple.com/documentation/avfoundation/avcapturephotooutput/isshuttersoundsuppressionsupported)
+### Image quality and resolution
 
-### 画質・解像度について
-
-| 項目 | 内容 |
+| Setting | Value |
 | --- | --- |
-| 撮影方式 | `AVCapturePhotoOutput` と `.photo` プリセット |
-| 写真寸法 | 選択中のカメラが提示する最大写真寸法を要求 |
-| 写真品質の優先度 | `.quality` |
-| 圧縮品質 | `1.0` |
-| 保存形式 | HEICを優先し、未対応時はJPEG |
-| アプリ内での縮小・再圧縮 | 撮影データをアプリ内で縮小・再圧縮してから保存する処理はありません |
+| Capture | `AVCapturePhotoOutput` with the `.photo` preset |
+| Requested size | The largest photo dimensions the selected camera offers |
+| Quality prioritization | `.quality` |
+| Compression quality | `1.0` |
+| Format | HEIC, or JPEG when HEIC isn't available |
+| App-side resizing or recompression | None before saving. |
 
-ただし、次の制約があります。
+Limitations:
 
-- **HEIC/JPEGは非可逆圧縮です。** 圧縮品質 `1.0` は無劣化を意味しません。
-- 画面に表示する最大解像度は要求値です。保存結果は機種、レンズ、照明、システムの処理などに左右されます。
-- 純正カメラと同じ画像処理・画質や、すべての機種で24MP/48MPになることは保証しません。RAW/ProRAWには対応していません。
-- 背面はメインの広角カメラを使用します。ズームはデジタルズームで、倍率を上げると細部や保存解像度が低下することがあります。同じ画素数でも、1×と同じ細部が残るわけではありません。
-- 「さらに拡大」は、そのカメラが許可する上限まで試す機能です。高倍率での品質や動作は広く検証していません。
+- **HEIC and JPEG are lossy formats.** A compression quality of `1.0` does not mean lossless.
+- The maximum resolution shown in the app is the size it *requests*. What you actually get depends on the model, lens, lighting, system processing, and other factors.
+- The app doesn't guarantee the same image processing or quality as Apple's Camera app, or 24 MP / 48 MP output on every model. RAW and ProRAW aren't supported.
+- On the rear side, the app uses the main wide camera. Zoom is digital, so higher zoom can reduce detail and saved resolution. Even at the same pixel count, a zoomed photo won't keep the detail of a 1× shot.
+- The extended zoom option (「さらに拡大」) goes up to the maximum the camera allows. Quality and behavior at high zoom haven't been widely tested.
 
 <details>
-<summary><strong>48MPの検証と遅延処理</strong></summary>
+<summary><strong>48 MP check and deferred photo processing</strong></summary>
 
 <br>
 
-48MP対応の背面カメラを1×で使う場合は、要求した最大寸法を基準に検証し、それを下回る写真は保存せずエラーを表示します。完成画像では実際の寸法を、遅延処理のプロキシではシステムが返す完成予定寸法を確認します。ズーム中は解像度低下を受け入れ、前面カメラにはこの48MP条件を適用しません。
+When a rear camera that supports 48 MP is used at 1×, the app checks each photo against the requested maximum dimensions. If a photo comes up short, the app shows an error instead of saving it. For a finished image it checks the actual dimensions. For a deferred-processing proxy it checks the expected final dimensions the system reports. While zoomed, lower resolution is accepted. The front camera isn't subject to this 48 MP check.
 
-対応環境では遅延写真処理を利用し、プロキシを `.photoProxy` として写真ライブラリへ渡します。仕上げはシステムが行います。**プロキシの寸法は完成画像の寸法ではなく、完成予定寸法の検証も処理完了後の画質を保証しません。** 「写真アプリで仕上げ待ち」と表示された場合は、処理後に「写真」の情報画面で寸法を確認してください。
+Where deferred photo processing is available, the app hands a proxy to the photo library as `.photoProxy`, and the system finishes the image. **A proxy's dimensions are not the final image's dimensions, and checking the expected final dimensions doesn't guarantee the quality of the finished photo.** If the app shows 「写真アプリで仕上げ待ち」 (waiting for Photos to finish processing), check the dimensions in the photo's Info panel in Photos once processing is done.
 
-参考: [Appleの遅延写真プロキシ](https://developer.apple.com/documentation/avfoundation/avcapturedeferredphotoproxy)
+Reference: [Apple's deferred photo proxy](https://developer.apple.com/documentation/avfoundation/avcapturedeferredphotoproxy)
 
 </details>
 
-### 権限とデータ
+## Privacy and permissions
 
-通常の撮影では、カメラと写真ライブラリへの<strong>追加のみ（addOnly）</strong>の権限を使用します。既存の写真を読む権限や位置情報は要求しません。アプリ独自のネットワーク通信、広告、分析・追跡機能はありません。写真ライブラリに保存した後のiCloud同期などは、端末の設定に従います。
+| Access | In normal shooting |
+| --- | --- |
+| Camera | Used to take photos |
+| Photos | **Add-only** (`addOnly`). Permission to read existing photos isn't requested. |
+| Location | Not requested |
+| Microphone | Not used (see below) |
+| Network, ads, analytics | None in the app |
 
-以前のマイク・Live Photo実験のコードとマイク権限の説明文は残っています。ただし現在の有効フラグは `false` に固定され、撮影画面から起動できず、通常の撮影でマイクやLive Photoは使用しません。
+Once a photo is in your library, things like iCloud sync follow your device settings.
 
-## 必要な環境
+The project still contains code from an earlier microphone / Live Photo experiment, along with the microphone usage description. That feature's flag is fixed to `false`. It can't be started from the camera screen, and normal shooting never uses the microphone or Live Photos.
 
-- iOS 18.0以降のiPhone（実際の動作確認範囲は[確認できた範囲](#確認できた範囲)を参照）
-- iOS 18以降のSDKを含み、接続する端末のOSに対応したXcode
-- 実機へインストールするためのApple Account
+## Getting started
 
-外部ライブラリ、追加パッケージ、サーバーは不要です。Simulatorだけでは実際の撮影・消音・保存品質を確認できません。
+### Requirements
 
-## 自分のiPhoneへインストールする
+- An iPhone running iOS 18.0 or later (see [Tested so far](#tested-so-far) for what has actually been verified)
+- A Mac with a version of Xcode that includes the iOS 18 SDK or later and supports your iPhone's iOS version
+- An Apple Account for installing on a real device
 
-このリポジトリはソースコード用です。署名済みアプリ、開発者証明書、秘密鍵、プロビジョニングプロファイルは含みません。
+No external libraries, packages, or servers are needed. The Simulator alone can't show real capture, shutter-sound suppression, or saved image quality.
 
-1. [QuietCamera.xcodeproj](QuietCamera.xcodeproj) をXcodeで開きます。
-2. **Xcode > Settings > Apple Accounts** で、自分のApple Accountにサインインします。
-3. **TARGETS > QuietCamera > Signing & Capabilities** で **Automatically manage signing** を有効にし、自分の **Team** を選びます。
-4. **Bundle Identifier** の `com.example.QuietCamera` は公開用の仮値です。自分だけの識別子に変更してください。例: `com.example.myuniqueid.QuietCamera`。
-5. iPhoneをMacに接続してロックを解除し、必要に応じてコンピュータを信頼します。求められた場合は、iPhoneの **設定 > プライバシーとセキュリティ > デベロッパモード** を有効にします。
-6. Xcodeでスキーム **QuietCamera** と接続したiPhoneを選び、**Run（⌘R）** を押します。
-7. 未信頼のデベロッパと表示された場合は、iPhoneの **設定 > 一般 > VPNとデバイス管理** から、自分の開発者Appの信頼・検証を行います。
-8. カメラと写真の追加を許可して撮影し、保存結果を「写真」で確認します。まず音が出ても問題のない場所で試してください。
+### Install on your iPhone
+
+This repository is source code only. It doesn't include a signed app, developer certificates, private keys, or provisioning profiles.
+
+1. Open [QuietCamera.xcodeproj](QuietCamera.xcodeproj) in Xcode.
+2. Sign in with your Apple Account under **Xcode > Settings > Apple Accounts**.
+3. In **TARGETS > QuietCamera > Signing & Capabilities**, turn on **Automatically manage signing** and choose your **Team**.
+4. The **Bundle Identifier** `com.example.QuietCamera` is a placeholder for publishing. Change it to one that's unique to you, for example `com.example.myuniqueid.QuietCamera`.
+5. Connect your iPhone to your Mac, unlock it, and trust the computer if asked. If prompted, turn on **Settings > Privacy & Security > Developer Mode** on the iPhone.
+6. In Xcode, select the **QuietCamera** scheme and your iPhone, then press **Run (⌘R)**.
+7. If the iPhone says the developer isn't trusted, go to **Settings > General > VPN & Device Management** and trust and verify your developer app.
+8. Allow camera access and adding photos, take a shot, and check the result in Photos. Try it first somewhere a shutter sound won't bother anyone.
 
 > [!NOTE]
-> 無料のPersonal Teamでは、プロビジョニングプロファイルが発行から**7日間**で期限切れになります。期限後は同じApple AccountとBundle Identifierを使って再ビルド・再インストールしてください。[Appleの説明](https://developer.apple.com/help/account/basics/about-your-developer-account)
+> With a free Personal Team, the provisioning profile expires **7 days** after it's issued. After that, rebuild and reinstall using the same Apple Account and Bundle Identifier. See [Apple's explanation](https://developer.apple.com/help/account/basics/about-your-developer-account).
 
-自分の署名設定を加えた後に再公開する場合は、Team ID、端末情報、証明書、個人用の設定やログが含まれていないことを確認してください。
+If you publish your own copy after adding your signing settings, make sure it doesn't include your Team ID, device information, certificates, or personal settings and logs.
 
-## ライセンス
+## License
 
-[MIT License](LICENSE)。再利用・改変・再配布・商用利用が可能です。著作権表示とライセンス文を保持してください。ソフトウェアは無保証で提供されます。このライセンスは、AppleのSDKやサービスの利用条件を変更するものではありません。
+Quiet Camera is released under the [MIT License](LICENSE). You can reuse, modify, and redistribute it, including for commercial use, as long as you keep the copyright notice and license text. The software is provided without warranty. This license doesn't change the terms of Apple's SDKs or services.
 
-実装時に参照した公開例とライセンス表示は、[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) に記載しています。
+Public examples referenced during development, and their license notices, are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
