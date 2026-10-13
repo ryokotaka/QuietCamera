@@ -16,19 +16,23 @@
   <strong>English</strong> · <a href="README.ja.md">日本語</a>
 </p>
 
-During a class, a professor asked me to turn off my shutter sound. On an iPhone that isn't as simple as it sounds. On some iPhones used in Japan, even Silent mode won't mute the shutter. I tried silent camera apps instead, but I wasn't happy with the image quality.
+Quiet Camera is an experimental iPhone camera app for places where a shutter sound would disturb people, such as a classroom. On every shot it tries to suppress the shutter sound, and it asks the camera for full-size photos, which it saves to the Photos app. It's shared as source code, so you build it in Xcode and install it on your own iPhone.
 
-So I made my own. Quiet Camera tries to suppress the shutter sound on every shot, and it asks the camera for the largest photo it can take. The point is to avoid disturbing a quiet room. Please use it only where photography is allowed, and with respect for the people around you.
+## Why I made it
 
-> [!IMPORTANT]
-> This is an experimental personal project. It doesn't guarantee silence, full resolution, or the same image quality as Apple's Camera app. Results can vary with your iPhone model, iOS version, and region, and so far it has only been tested on one iPhone.
+In one of my classes, the professor asked the whole class to turn off their shutter sounds. On an iPhone that isn't as simple as it sounds. On some iPhones used in Japan, even Silent mode won't mute the shutter. I tried silent camera apps, but I wasn't happy with the image quality, so I made my own.
+
+Please use it only where photography is allowed, and with respect for the people around you.
 
 ## What it does
 
 - **Shutter suppression on every shot.** There's nothing to switch on. It uses Apple's official API where your iPhone supports it, and an experimental fallback where it doesn't.
-- **Asks for full resolution.** It requests the largest photo size the selected camera offers and saves HEIC (or JPEG) to Photos. The app doesn't resize or recompress photos before saving.
+- **Asks for full resolution.** It requests the largest photo size the selected camera offers and saves HEIC (or JPEG). The app doesn't resize or recompress photos before saving.
 - **A big 4:3 preview.** Front and rear cameras, with digital zoom by buttons, a slider, or pinch.
 - **No extras.** It uses the camera and add-only Photos access. The app has no networking of its own, no ads, and no analytics.
+
+> [!IMPORTANT]
+> This is an experimental personal project. It doesn't guarantee silence, full resolution, or the same image quality as Apple's Camera app. Results can vary with your iPhone model, iOS version, and region, and so far it has only been tested on one iPhone.
 
 ## Tested so far
 
