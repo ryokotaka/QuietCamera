@@ -7,6 +7,7 @@
 <p align="center">An experimental iPhone camera for taking photos quietly.</p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/For-Japan%20%26%20South%20Korea-b42318?style=flat-square" alt="For users in Japan and South Korea">
   <img src="https://img.shields.io/badge/iOS-18.0%2B-1d2b31?style=flat-square" alt="iOS 18.0+">
   <img src="https://img.shields.io/badge/dependencies-none-1d2b31?style=flat-square" alt="No external dependencies">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-3f6f60?style=flat-square" alt="MIT License"></a>
@@ -15,6 +16,8 @@
 <p align="center">
   <strong>English</strong> · <a href="README.ja.md">日本語</a>
 </p>
+
+**For iPhone users in Japan and South Korea whose shutter sound stays on in Silent mode.**
 
 Quiet Camera is an iPhone camera app for places where a shutter sound would disturb people, such as a classroom. On every shot it tries to suppress the shutter sound, and it asks the camera for full-size photos, which it saves to the Photos app. It's shared as source code, so you build it in Xcode and install it on your own iPhone.
 
@@ -36,7 +39,7 @@ Please use it only where photography is allowed, and with respect for the people
 
 ## Tested so far
 
-On an iPhone 15 with iOS 27.0.1, using the rear main camera at 1×, photos were taken with no shutter sound, and the Photos app showed them at 8064 × 6048 (about 48.8 MP). Apple's official API reported no support on that phone, so the experimental fallback was used. Other models and regions haven't been tested yet. The full log is under [Details](#details).
+On an iPhone 15 with iOS 27.0.1, using the rear main camera at 1×, photos were taken with no shutter sound, and the Photos app showed them at 8064 × 6048 (about 48.8 MP). Apple's official API reported no support on that phone, so the experimental fallback was used. Other models and regions, including South Korea, haven't been tested yet. The full log is under [Details](#details).
 
 ## Try it on your iPhone
 

@@ -7,6 +7,7 @@
 <p align="center">静かに撮るための、実験的なiPhoneカメラアプリ</p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/%E5%AF%BE%E8%B1%A1-%E6%97%A5%E6%9C%AC%20%26%20%E9%9F%93%E5%9B%BD-b42318?style=flat-square" alt="日本・韓国のユーザー向け">
   <img src="https://img.shields.io/badge/iOS-18.0%2B-1d2b31?style=flat-square" alt="iOS 18.0+">
   <img src="https://img.shields.io/badge/dependencies-none-1d2b31?style=flat-square" alt="外部ライブラリなし">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-3f6f60?style=flat-square" alt="MIT License"></a>
@@ -15,6 +16,8 @@
 <p align="center">
   <a href="README.md">English</a> · <strong>日本語</strong>
 </p>
+
+**日本・韓国で、マナーモードでもiPhoneのシャッター音を消せずに困っている人向けです。**
 
 Quiet Camera は、教室のようにシャッター音が周りの迷惑になる場所での撮影を想定したiPhoneカメラアプリです。撮影のたびにシャッター音を抑える処理を試み、カメラが対応する最大サイズの写真を要求して「写真」アプリに保存します。ソースコードとして公開しているので、Xcodeでビルドして自分のiPhoneに入れて使います。
 
@@ -36,7 +39,7 @@ Quiet Camera は、教室のようにシャッター音が周りの迷惑にな�
 
 ## これまでの確認
 
-iPhone 15（iOS 27.0.1）の背面メインカメラ・1×で、撮影音なしで撮影できました。「写真」では8064 × 6048（約48.8MP）で保存されていることを確認しています。この端末では公式APIが消音に非対応だったため、実験的な方法が使われました。ほかの機種や地域ではまだ試していません。記録の詳細は[詳しい情報](#詳しい情報)にあります。
+iPhone 15（iOS 27.0.1）の背面メインカメラ・1×で、撮影音なしで撮影できました。「写真」では8064 × 6048（約48.8MP）で保存されていることを確認しています。この端末では公式APIが消音に非対応だったため、実験的な方法が使われました。ほかの機種や地域ではまだ試していません。韓国での動作も未確認です。記録の詳細は[詳しい情報](#詳しい情報)にあります。
 
 ## 自分のiPhoneで使う
 
